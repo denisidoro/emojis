@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+curl https://raw.githubusercontent.com/muan/emojilib/master/emojis.json \
+    | jq -r 'keys[] as $k | "\(.[$k] | .char)|\($k),\(.[$k] | .keywords),\(.[$k] | .category)"' \
+    | sed 's/\["//g' | sed 's/"\]//g' \
+    | sed 's/,/, /g' \
+    | tr -d '"' \
+    | column -t -s'|'
+
